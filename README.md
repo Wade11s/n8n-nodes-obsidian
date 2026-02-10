@@ -1,4 +1,6 @@
-# n8n-nodes-obsidian
+# n8n-nodes-obsidian-rest-local
+
+[![npm](https://img.shields.io/npm/v/n8n-nodes-obsidian-rest-local)](https://www.npmjs.com/package/n8n-nodes-obsidian-rest-local)
 
 This is an n8n community node that enables you to interact with [Obsidian](https://obsidian.md/) via the [Local REST API](https://github.com/coddingtonbear/obsidian-local-rest-api) plugin. Automate your note-taking workflows by creating, reading, updating, and managing your Obsidian vault from n8n.
 
@@ -19,7 +21,7 @@ This is an n8n community node that enables you to interact with [Obsidian](https
 Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
 ```bash
-npm install n8n-nodes-obsidian
+npm install n8n-nodes-obsidian-rest-local
 ```
 
 ## Credentials
