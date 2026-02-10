@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/fastwede/n8n-nodes-obsidian.git"
+        "url": "https://github.com/Wade11s/n8n-nodes-obsidian.git"
     },
     "scripts": {
         "build": "n8n-node build",
