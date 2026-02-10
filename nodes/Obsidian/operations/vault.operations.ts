@@ -1,6 +1,7 @@
 import type { IExecuteFunctions, IDataObject } from 'n8n-workflow';
 import type { ObsidianCredentials, OperationHandler } from '../helpers/types';
 import { makeRequest, encodePath } from '../helpers/api.helper';
+import { createSuccessResponse } from '../helpers/response.helper';
 
 export const handleListNotes: OperationHandler = async function (
 	this: IExecuteFunctions,
@@ -27,5 +28,5 @@ export const handleListNotes: OperationHandler = async function (
 			url,
 		},
 	);
-	return { results: response };
+	return createSuccessResponse({ results: response.data as IDataObject }, 'vault', 'list', response.statusCode) as unknown as IDataObject;
 };

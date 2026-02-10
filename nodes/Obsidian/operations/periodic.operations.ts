@@ -1,6 +1,7 @@
 import type { IExecuteFunctions, IDataObject } from 'n8n-workflow';
 import type { ObsidianCredentials, OperationHandler } from '../helpers/types';
 import { makeRequest } from '../helpers/api.helper';
+import { createSuccessResponse, createMutationResponse } from '../helpers/response.helper';
 
 /**
  * Retrieves a periodic note (daily, weekly, monthly, quarterly, or yearly).
@@ -16,7 +17,7 @@ export const handleGetPeriodicNote: OperationHandler = async function (
 	const date = this.getNodeParameter('date', itemIndex, '') as string;
 
 	const url = date ? `/periodic/${period}/${date}/` : `/periodic/${period}/`;
-	return await makeRequest.call(
+	const response = await makeRequest.call(
 		this,
 		credentials,
 		{
@@ -24,6 +25,7 @@ export const handleGetPeriodicNote: OperationHandler = async function (
 			url,
 		},
 	);
+	return createSuccessResponse(response.data as IDataObject, 'periodic', 'get', response.statusCode) as unknown as IDataObject;
 };
 
 /**
@@ -41,7 +43,7 @@ export const handleCreatePeriodicNote: OperationHandler = async function (
 	const content = this.getNodeParameter('content', itemIndex) as string;
 
 	const url = date ? `/periodic/${period}/${date}/` : `/periodic/${period}/`;
-	return await makeRequest.call(
+	const response = await makeRequest.call(
 		this,
 		credentials,
 		{
@@ -53,4 +55,5 @@ export const handleCreatePeriodicNote: OperationHandler = async function (
 			body: content,
 		},
 	);
+	return createMutationResponse('periodic', 'create', response.statusCode) as unknown as IDataObject;
 };

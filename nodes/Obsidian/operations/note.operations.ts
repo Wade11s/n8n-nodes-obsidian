@@ -1,6 +1,7 @@
 import type { IExecuteFunctions, IDataObject } from 'n8n-workflow';
 import type { ObsidianCredentials, OperationHandler } from '../helpers/types';
 import { makeRequest, encodePath } from '../helpers/api.helper';
+import { createSuccessResponse, createMutationResponse } from '../helpers/response.helper';
 
 export const handleGetNote: OperationHandler = async function (
 	this: IExecuteFunctions,
@@ -9,7 +10,7 @@ export const handleGetNote: OperationHandler = async function (
 ): Promise<IDataObject> {
 	const path = this.getNodeParameter('path', itemIndex) as string;
 	const encodedPath = encodePath(path);
-	return await makeRequest.call(
+	const response = await makeRequest.call(
 		this,
 		credentials,
 		{
@@ -20,6 +21,7 @@ export const handleGetNote: OperationHandler = async function (
 			},
 		},
 	);
+	return createSuccessResponse(response.data as IDataObject, 'note', 'get', response.statusCode) as unknown as IDataObject;
 };
 
 /**
@@ -42,7 +44,7 @@ export const handleCreateNote: OperationHandler = async function (
 		qs.overwrite = 'true';
 	}
 
-	return await makeRequest.call(
+	const response = await makeRequest.call(
 		this,
 		credentials,
 		{
@@ -55,6 +57,7 @@ export const handleCreateNote: OperationHandler = async function (
 			qs,
 		},
 	);
+	return createMutationResponse('note', 'create', response.statusCode) as unknown as IDataObject;
 };
 
 export const handleUpdateNote: OperationHandler = async function (
@@ -66,7 +69,7 @@ export const handleUpdateNote: OperationHandler = async function (
 	const content = this.getNodeParameter('content', itemIndex) as string;
 
 	const encodedPath = encodePath(path);
-	return await makeRequest.call(
+	const response = await makeRequest.call(
 		this,
 		credentials,
 		{
@@ -78,6 +81,7 @@ export const handleUpdateNote: OperationHandler = async function (
 			body: content,
 		},
 	);
+	return createMutationResponse('note', 'update', response.statusCode) as unknown as IDataObject;
 };
 
 
@@ -89,7 +93,7 @@ export const handleDeleteNote: OperationHandler = async function (
 	const path = this.getNodeParameter('path', itemIndex) as string;
 
 	const encodedPath = encodePath(path);
-	await makeRequest.call(
+	const response = await makeRequest.call(
 		this,
 		credentials,
 		{
@@ -97,7 +101,7 @@ export const handleDeleteNote: OperationHandler = async function (
 			url: `/vault/${encodedPath}`,
 		},
 	);
-	return { success: true, path };
+	return createMutationResponse('note', 'delete', response.statusCode) as unknown as IDataObject;
 };
 
 /**
@@ -116,7 +120,7 @@ export const handleCopyNote: OperationHandler = async function (
 	const encodedSourcePath = encodePath(sourcePath);
 	const encodedDestinationPath = encodePath(destinationPath);
 
-	await makeRequest.call(
+	const response = await makeRequest.call(
 		this,
 		credentials,
 		{
@@ -127,7 +131,7 @@ export const handleCopyNote: OperationHandler = async function (
 			},
 		},
 	);
-	return { success: true, sourcePath, destinationPath };
+	return createMutationResponse('note', 'copy', response.statusCode) as unknown as IDataObject;
 };
 
 /**
@@ -144,7 +148,7 @@ export const handleAppendToNote: OperationHandler = async function (
 	const content = this.getNodeParameter('content', itemIndex) as string;
 
 	const encodedPath = encodePath(path);
-	await makeRequest.call(
+	const response = await makeRequest.call(
 		this,
 		credentials,
 		{
@@ -157,5 +161,5 @@ export const handleAppendToNote: OperationHandler = async function (
 			body: content,
 		},
 	);
-	return { success: true, path };
+	return createMutationResponse('note', 'append', response.statusCode) as unknown as IDataObject;
 };

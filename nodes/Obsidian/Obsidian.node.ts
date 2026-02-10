@@ -3,10 +3,12 @@ import type {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
+	IDataObject,
 } from 'n8n-workflow';
 import { NodeConnectionTypes, NodeOperationError } from 'n8n-workflow';
 import { operations } from './operations';
 import type { ObsidianCredentials } from './helpers/types';
+import { createErrorResponse, getErrorCode } from './helpers/response.helper';
 import {
 	noteOperations,
 	noteFields,
@@ -17,6 +19,30 @@ import {
 	commandOperations,
 	commandFields,
 } from './resources';
+
+/**
+ * Extract status code from error object
+ */
+function getStatusCodeFromError(error: unknown): number {
+	if (error && typeof error === 'object') {
+		const err = error as { statusCode?: number; code?: string; status?: number };
+		return err.statusCode ?? err.status ?? 500;
+	}
+	return 500;
+}
+
+/**
+ * Extract error message from error object
+ */
+function getErrorMessage(error: unknown): string {
+	if (error instanceof Error) {
+		return error.message;
+	}
+	if (error && typeof error === 'object' && 'message' in error) {
+		return String((error as { message: unknown }).message);
+	}
+	return 'An unknown error occurred';
+}
 
 export class Obsidian implements INodeType {
 	description: INodeTypeDescription = {
@@ -141,9 +167,20 @@ export class Obsidian implements INodeType {
 					pairedItem: { item: itemIndex },
 				});
 			} catch (error) {
+				const statusCode = getStatusCodeFromError(error);
+				const message = getErrorMessage(error);
+				const errorCode = getErrorCode(statusCode);
+
 				if (continueOnFail) {
+					const standardizedError = createErrorResponse(
+						message,
+						statusCode,
+						resource,
+						operation,
+						errorCode,
+					);
 					returnData.push({
-						json: { error: (error as Error).message },
+						json: standardizedError as unknown as IDataObject,
 						pairedItem: { item: itemIndex },
 					});
 				} else {
