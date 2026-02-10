@@ -1,0 +1,56 @@
+{
+    "name": "n8n-nodes-obsidian",
+    "version": "0.1.0",
+    "description": "n8n community node to interact with Obsidian via Local REST API",
+    "license": "MIT",
+    "homepage": "",
+    "keywords": [
+        "n8n-community-node-package"
+    ],
+    "author": {
+        "name": "Wade Huang",
+        "email": "fastwade11@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/fastwede/n8n-nodes-obsidian.git"
+    },
+    "scripts": {
+        "build": "n8n-node build",
+        "build:watch": "tsc --watch",
+        "dev": "n8n-node dev",
+        "lint": "n8n-node lint",
+        "lint:fix": "n8n-node lint --fix",
+        "release": "n8n-node release",
+        "prepublishOnly": "n8n-node prerelease",
+        "test": "jest --testPathIgnorePatterns=integration",
+        "test:watch": "jest --watch",
+        "test:integration": "jest --testPathPatterns=integration"
+    },
+    "files": [
+        "dist"
+    ],
+    "n8n": {
+        "n8nNodesApiVersion": 1,
+        "strict": false,
+        "credentials": [
+            "dist/credentials/ObsidianApi.credentials.js"
+        ],
+        "nodes": [
+            "dist/nodes/Obsidian/Obsidian.node.js"
+        ]
+    },
+    "devDependencies": {
+        "@n8n/node-cli": "*",
+        "@types/jest": "^30.0.0",
+        "eslint": "9.32.0",
+        "jest": "^30.2.0",
+        "prettier": "3.6.2",
+        "release-it": "^19.0.4",
+        "ts-jest": "^29.4.6",
+        "typescript": "5.9.2"
+    },
+    "peerDependencies": {
+        "n8n-workflow": "*"
+    }
+}

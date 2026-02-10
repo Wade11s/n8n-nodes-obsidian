@@ -1,0 +1,28 @@
+{
+	"node": "n8n-nodes-obsidian.obsidian",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": [
+		"Productivity",
+		"Data & Storage"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://coddingtonbear.github.io/obsidian-local-rest-api/"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://coddingtonbear.github.io/obsidian-local-rest-api/"
+			}
+		],
+		"generic": [
+			{
+				"label": "GitHub - Obsidian Local REST API",
+				"url": "https://github.com/coddingtonbear/obsidian-local-rest-api",
+				"icon": "github"
+			}
+		]
+	}
+}
