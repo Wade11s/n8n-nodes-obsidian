@@ -1,5 +1,5 @@
 {
-    "name": "n8n-nodes-obsidian",
+    "name": "n8n-nodes-obsidian-rest-local",
     "version": "0.1.0",
     "description": "n8n community node to interact with Obsidian via Local REST API",
     "license": "MIT",
