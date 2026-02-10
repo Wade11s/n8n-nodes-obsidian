@@ -194,6 +194,14 @@ npm run test:integration
 
 ## Version History
 
+### 0.3.0
+- **Breaking Change**: Standardized output format across all operations
+  - All operations now return unified response envelope with `data`, `meta`, and optional `error` fields
+  - Query operations return data in `data` field with metadata
+  - Mutation operations return `data: null` with confirmation metadata
+  - Error responses include structured `error` object with `message`, `code`, and `statusCode`
+  - Metadata includes `resource`, `operation`, `timestamp`, `statusCode`, `success`
+
 ### 0.2.0
 - **Breaking Change**: Reorganized UI with Resource-Operation pattern
   - Resources: Note, Vault, Periodic, Command
