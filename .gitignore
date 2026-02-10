@@ -25,3 +25,6 @@ yarn-error.log*
 
 # npm pack output
 *.tgz
+
+# OpenSpec
+openspec/
